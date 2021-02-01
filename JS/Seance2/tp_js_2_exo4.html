@@ -50,7 +50,7 @@
                 context2d.fillRect(0,0,600,600);
                 carres = new Array(3);
                 for(var i=0;i<carres.length;i++){
-                    carres[i] = new Carre(canvas, -1, 100+100*i, 1);
+                    carres[i] = new Carre(canvas, -1, 100+100*i, i+1);
                     render(carres[i]);
                 }
                 var y = 0
@@ -59,16 +59,20 @@
                     y = y + 1;
                     
                     for(var i=0;i<carres.length;i++){
+                        deplace(y, 400+100*i, carres[i]);
+                    }
+                    
+                    var i=0;
+                    while(i<carres.length){
                         if(!carres[i].exist){
                             carres[i].clear();
-                        } else {
-                            deplace(y, 400+100*i, carres[i]);
+                            carres.splice(i,1);
                         }
+                        i++;
                     }
 
-                    if(!carres[carres.length-1].exist){
+                    if(carres.every((carre) => !carre.exist)){
                         window.clearInterval(waitID);
-                        !carres[carres.length-1].clear();
                     }
                 }, 1);
                 
