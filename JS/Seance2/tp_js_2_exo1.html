@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            var x = 10;
+            var intervalID = window.setInterval(() => {
+                x = x - 0.01;
+                if(x < 0){
+                    window.clearInterval(intervalID);
+                    x= 0;
+                }
+                document.getElementById("timer").innerHTML = x.toFixed(2);
+            }, 1);
+        </script>
+    </head>
+    <body>
+        <h1>
+            <span id="timer"></span>
+        </h1>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            var canvas;
+            var context2d;
+            var x = 0;
+            var intervalID;
+
+            function init(){
+                canvas = document.getElementById("monCanvas");
+                context2d = canvas.getContext("2d");
+                context2d.fillStyle = "black";
+                context2d.fillRect(0,0,600,600);
+                drawRect("red");
+                var y = 0
+                var waitID = window.setInterval(() => {
+                    y = y + 1;
+                    if(y === 200){
+                        window.clearInterval(waitID);
+                        deplace();
+                    }
+                }, 1);
+                
+            }
+
+            function deplace(){
+                intervalID = window.setInterval(() => {
+                    drawRect("black");
+                    x = x + 1;
+                    drawRect("red");
+                    if(x === 550){
+                        window.clearInterval(intervalID);
+                    }
+                    
+                }, 1);
+            }
+
+            function drawRect(color){
+                context2d.fillStyle = color;
+                context2d.fillRect(x, 100, 50, 50);
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="monCanvas" width="600" height="600"></canvas>
+    </body>
+</html>

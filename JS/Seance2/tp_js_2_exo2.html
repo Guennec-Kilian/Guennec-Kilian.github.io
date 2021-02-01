@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            var canvas;
+            var context2d;
+            var x;
+            var intervalID;
+            function init(){
+                canvas = document.getElementById("monCanvas");
+                context2d = canvas.getContext("2d");
+                x = 0;
+                intervalID = window.setInterval(() => {
+                    drawRect("black");
+                    x = x + 1;
+                    drawRect("red");
+                    console.log(x);
+                    if(x === 550){
+                        window.clearInterval(intervalID);
+                    }
+                    
+                }, 1);
+                context2d.fillStyle = "black";
+                context2d.fillRect(0,0,600,600);
+                drawRect("red");
+            }
+
+            function drawRect(color){
+                context2d.fillStyle = color;
+                context2d.fillRect(x, 100, 50, 50);
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="monCanvas" width="600" height="600"></canvas>
+    </body>
+</html>

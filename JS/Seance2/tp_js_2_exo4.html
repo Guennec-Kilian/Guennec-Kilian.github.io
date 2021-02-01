@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            class Carre  {
+                constructor(canvas, x, y, speed){
+                    this.canvas = canvas
+                    this.context2d = canvas.getContext("2d");
+                    this.x = x;
+                    this.y = y;
+                    this.speed = speed;
+                    this.exist = true;
+                
+                    this.draw = function(color){
+                        this.context2d.fillStyle = color;
+                        this.context2d.fillRect(this.x, this.y, 50, 50);
+
+                    }
+
+                    this.update = function(){
+                        this. x = this.x + speed;
+                        if(this.x >= 550){
+                            this.exist = false;
+                        }
+                    }
+
+                    this.clear = function(){
+                        this.draw("black");
+                    }
+
+                    this.preRender = function(){
+                        this.draw("black");
+                    }
+
+                    this.postRender = function(){
+                        this.draw("red");
+                    }
+                }
+            }
+
+            var canvas;
+            var context2d;
+            var intervalID;
+            var carres;
+
+            function init(){
+                canvas = document.getElementById("monCanvas");
+                context2d = canvas.getContext("2d");
+                context2d.fillStyle = "black";
+                context2d.fillRect(0,0,600,600);
+                carres = new Array(3);
+                for(var i=0;i<carres.length;i++){
+                    carres[i] = new Carre(canvas, -1, 100+100*i, 1);
+                    render(carres[i]);
+                }
+                var y = 0
+                var waitID = window.setInterval(() => {
+
+                    y = y + 1;
+                    
+                    for(var i=0;i<carres.length;i++){
+                        if(!carres[i].exist){
+                            carres[i].clear();
+                        } else {
+                            deplace(y, 400+100*i, carres[i]);
+                        }
+                    }
+
+                    if(!carres[carres.length-1].exist){
+                        window.clearInterval(waitID);
+                        !carres[carres.length-1].clear();
+                    }
+                }, 1);
+                
+            }
+
+            function deplace(x, seuil, carre){
+                if(x >= seuil && carre.exist === true){
+                        render(carre)
+                }
+            }
+
+            function render(carre){
+                    carre.preRender();
+                    carre.update();
+                    carre.postRender();
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="monCanvas" width="600" height="600"></canvas>
+    </body>
+</html>
