@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <SCRIPT LANGUAGE="Javascript" SRC="geometrie/cercle.js"></SCRIPT>
+        <script>
+            var canvas;
+            var audio;
+            var lecteur;
+            var play;
+            var pause;
+            var stop;
+            function init(){
+                canvas = document.getElementById("myCanvas");
+                audio = document.getElementById("player");
+                audio.style.display = "none";
+                lecteur = new Cercle(canvas, audio.duration);
+                updateCanvas()
+                canvas.onclick = function(event){
+                    x = event.x;
+                    y = event.y;
+                    xC = x - 100;
+                    yC = y - 100;
+                    if(70 < x && x < 140 && 70 < y  && y< 140){
+                        if(audio.paused){
+                            audio.play();
+                            lecteur.play = true;
+                        } else {
+                            audio.pause();
+                            lecteur.play = false;
+                        }
+                    }
+                };
+                
+            }
+            function updateCanvas(){
+                lecteur.draw(audio.currentTime);
+                
+            }
+            
+
+
+
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="myCanvas" width="200" height="200"></canvas>
+
+        <audio id="player" controls preload tabindex="0" ontimeupdate="updateCanvas()">
+            <source type="audio/wav" src="./mainmenu.wav"/>
+        </audio>
+    </body>
+</html>
