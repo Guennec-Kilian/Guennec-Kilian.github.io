@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+
+            var getteur;
+            var canvas;
+            var context2d;
+
+            function init(){
+
+                canvas = document.getElementById("monCanvas");
+                context2d = canvas.getContext("2d");
+                context2d.fillStyle = "black";
+                context2d.fillRect(0,0,600,600);
+                
+                var HttpGetter = function(){
+                    this.get = function(url, funcRetour){
+                        var httpRequest = new XMLHttpRequest();
+                        httpRequest.onreadystatechange = function(){
+                            if(httpRequest.readyState === 4 && httpRequest.status === 200){
+                                funcRetour(httpRequest.responseText);
+                            }
+                        };
+                        httpRequest.open("GET", url, true);
+                        httpRequest.send();
+                    }
+                };
+                getteur = new HttpGetter();
+
+                var z = 0
+                var waitID = window.setInterval(() => {
+
+                    z = z + 1;
+                    
+                    if(z % 100 === 0){
+                        getteur.get(`https://stwom.herokuapp.com/600`, (retour)=> {
+                            retour = JSON.parse(retour);
+                            console.log(retour);
+                            var x = retour["x"];
+                            var y = retour["y"];
+                            draw(x,y);
+                        });
+                    }
+
+                    if(z === 10000){
+                        window.clearInterval(waitID);
+                    }
+                }, 1);
+
+                
+            }
+            
+            function draw(x,y){
+                context2d.beginPath();
+		        context2d.arc(x,y,5,0,2*Math.PI,false);
+                context2d.fillStyle = "red";
+                context2d.strokeStyle = "red";
+                context2d.stroke();
+                context2d.fill();
+            }
+            
+            function myRandom(max){
+                return Math.round(Math.random()*max)
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="monCanvas" width="600" height="600"></canvas>
+    </body>
+</html>
