@@ -2,8 +2,6 @@ function myRandom(max){
     return Math.round(Math.random()*max)
 }
 
-var getteur;
-
 var HttpGetter = function(){
     this.get = function(url, funcRetour){
         fetch(url).then((retour) => {
@@ -17,22 +15,24 @@ var HttpGetter = function(){
     }
 };
 
-getteur = new HttpGetter()
+var getteur = new HttpGetter()
 
-var limite = myRandom(100);
-var z = 0;
-var waitID = self.setInterval(() => {
+onmessage = () =>{
+    var limite = myRandom(100);
+    var z = 0;
+    var waitID = self.setInterval(() => {
 
-    z = z + 1;
-    
-    if(z % limite === 0){
-        getteur.get(`https://stwom.herokuapp.com/600`, (retour)=> { 
-            postMessage(retour);
-            limite = myRandom(100);
-        });
-    }
+        z = z + 1;
+        
+        if(z % limite === 0){
+            getteur.get(`https://stwom.herokuapp.com/600`, (retour)=> { 
+                postMessage(retour);
+                limite = myRandom(100);
+            });
+        }
 
-    if(z === 10000){
-        self.clearInterval(waitID);
-    }
+        if(z === 10000){
+            self.clearInterval(waitID);
+        }
 }, 1);
+}
