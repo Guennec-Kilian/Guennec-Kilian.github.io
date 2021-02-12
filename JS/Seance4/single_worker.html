@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+
+            var monWorker;
+            var canvas;
+            var context2d;
+
+            function init(){
+
+                canvas = document.getElementById("monCanvas");
+                context2d = canvas.getContext("2d");
+                context2d.fillStyle = "black";
+                context2d.fillRect(0,0,600,600);
+
+                monWorker = new Worker('worker.js');
+
+                monWorker.onmessage = (e) => {
+                    var x = e.data['x'];
+                    var y = e.data['y'];
+                    draw(x,y);
+                };
+
+            }
+
+            function draw(x,y){
+                context2d.beginPath();
+		        context2d.arc(x,y,5,0,2*Math.PI,false);
+                context2d.fillStyle = "red";
+                context2d.strokeStyle = "red";
+                context2d.stroke();
+                context2d.fill();
+            }
+
+        </script>
+    </head>
+    <body onload="init()">
+        <canvas id="monCanvas" width="600" height="600"></canvas>
+    </body>
+</html>
