@@ -50,7 +50,7 @@ function fetchCalendar(url) {
         if(!retour.ok){
             throw new Error(`erreur HTTP! statut: ${retour.status}`);
         }
-        return ICAL.parse(iCalendarData);                         
+        return ICAL.parse(retour);                         
     })
     .then((retour) =>{
         var vCalendar = new ICAL.Component(retour).getAllSubcomponent('vevent');
