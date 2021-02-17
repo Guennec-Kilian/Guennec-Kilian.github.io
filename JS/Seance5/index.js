@@ -53,7 +53,7 @@ function fetchCalendar(url) {
         return retour;                         
     })
     .then((retour) =>{
-
+        console.log(retour);
         var cParser = new ICAL.ComponentParser();
 
         cParser.oncomplete = (e) => {
