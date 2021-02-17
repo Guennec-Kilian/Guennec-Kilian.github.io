@@ -50,43 +50,51 @@ function fetchCalendar(url) {
         if(!retour.ok){
             throw new Error(`erreur HTTP! statut: ${retour.status}`);
         }
-        return ICAL.parse(retour);                         
+        return retour;                         
     })
     .then((retour) =>{
-        var vCalendar = new ICAL.Component(retour).getAllSubcomponent('vevent');
-        vCalendar
-        .forEach(event =>{
-            var summary = event.getFirstPropertyValue('summary');
-            var id = event.getFirstPropertyValue('uid');
-            var loc = event.getFirstPropertyValue('location');
-            var desc = event.getFirstPropertyValue('description');
-            var evtStart = ICAL.Time.fromDateTimeString(event.getFirstPropertyValue('dtstart'));
-            var evtEnd = ICAL.Time.fromDateTimeString(event.getFirstPropertyValue('dtend'));
 
-            let newItem = 
-            {
-                uid : id,
-                summary : summary,
-                loc : loc,
-                desc : desc,
-                evtStart : evtStart,
-                evtEnd : evtEnd
-            };
+        var cParser = new ICAL.ComponentParser();
 
-            let transaction = db.transaction(['EDT'], 'readwrite');
+        cParser.oncomplete = (e) => {
 
-            let objectStore = transaction.objectStore('EDT');
+            var vCalendar = new ICAL.Component(e).getAllSubcomponent('vevent');
+            vCalendar
+            .forEach(event =>{
+                var summary = event.getFirstPropertyValue('summary');
+                var id = event.getFirstPropertyValue('uid');
+                var loc = event.getFirstPropertyValue('location');
+                var desc = event.getFirstPropertyValue('description');
+                var evtStart = ICAL.Time.fromDateTimeString(event.getFirstPropertyValue('dtstart'));
+                var evtEnd = ICAL.Time.fromDateTimeString(event.getFirstPropertyValue('dtend'));
 
-            objectStore.add(newItem);
+                let newItem = 
+                {
+                    uid : id,
+                    summary : summary,
+                    loc : loc,
+                    desc : desc,
+                    evtStart : evtStart,
+                    evtEnd : evtEnd
+                };
 
-            transaction.onsuccess = () => {
-                console.log('transaction reussi, modification apportee a la BDD');
-            };
+                let transaction = db.transaction(['EDT'], 'readwrite');
 
-            transaction.onerror = () => {
-                console.log('transaction echoue, aucune modification apportee a la BDD');
-            };
+                let objectStore = transaction.objectStore('EDT');
 
-        });
+                objectStore.add(newItem);
+
+                transaction.onsuccess = () => {
+                    console.log('transaction reussi, modification apportee a la BDD');
+                };
+
+                transaction.onerror = () => {
+                    console.log('transaction echoue, aucune modification apportee a la BDD');
+                };
+
+            });
+        };
+
+        cParser.process(retour);
     });
 }
