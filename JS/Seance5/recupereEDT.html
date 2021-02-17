@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <style>
+            html {
+              font-family: sans-serif;
+            }
+      
+            body {
+              margin: 0 auto;
+              max-width: 1024px;
+            }
+      
+            header, footer {
+              background: rgb(221, 57, 57);
+              padding: 20px;
+              border: 1px solid black;
+            }
+      
+            header {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
+      
+            form {
+              font-size: 0.8rem;
+            }
+
+          </style>
+          <script src="node_modules/ical.js/build/ical.js"></script>
+          <script src="index.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <form id="myform">
+                <div class="remember">
+                  <label for="enterurl">Entrez l'URL de votre EDT</label>
+                  <input id="enterurl" type="text" required>
+                  <input id="submiturl" type="submit" value="OK">
+                </div>
+                <div class="forget">
+                  <label for="forgeturl">Quitter cet EDT ?</label>
+                  <input id="forgeturl" type="reset" value="Oublier">
+                </div>
+              </form>
+        </header>
+    </body>
+</html>
