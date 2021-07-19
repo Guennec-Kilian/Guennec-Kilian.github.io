@@ -71,7 +71,7 @@
     $(document).ready(function(){
      
         $.ajax({
-                url : `https://pat2.cbs.cnrs.fr/myctu/rv_ali/Rv0004.htm`,
+                url : `http://pat2.cbs.cnrs.fr/myctu/rv_ali/Rv0004.htm`,
                 type : 'GET',
                 dataType : 'html',
                 success : function(code_html, statut){
@@ -92,10 +92,7 @@
 
     $(document).ready(async ()=>{
         const codehtml = await fetch(`http://pat2.cbs.cnrs.fr/myctu/rv_ali/Rv0004.htm`,{
-        mode: "no-cors",
-        headers:{
-            "content-type": "text"
-        }
+        mode: "no-cors"
     })
     console.log(codehtml)
     })
