@@ -1,0 +1,108 @@
+﻿<!doctype html>
+
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <meta charset="UTF-8">
+
+    <title>titre de ma page</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        body,
+        html {
+            height: 100%;
+        }
+        
+        body {
+            text-align: center;
+        }
+        
+        #main {
+            max-width: 1280px;
+            min-height: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        footer {
+            background: #ccc;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding-top: 50px;
+            height: 50px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="main">
+
+        <header>
+
+            <h1>mon titre</h1>
+
+        </header>
+
+        <div id="test">
+            <div>nice</div>
+        </div>
+
+        <section>
+            GO ON
+        </section>
+
+        <footer>
+
+            <p>texte du footer</p>
+
+        </footer>
+        <script>
+
+    $(document).ready(function(){
+     
+        $.ajax({
+                url : `http://pat2.cbs.cnrs.fr/myctu/rv_ali/Rv0004.htm`,
+                type : 'GET',
+                dataType : 'html',
+                success : function(code_html, statut){
+                    console.log('ajax', code_html) // On passe code_html à jQuery() qui va nous créer l'arbre DOM !
+                },
+        
+                error : function(resultat, statut, erreur){
+                
+                },
+        
+                complete : function(resultat, statut){
+        
+                }
+        
+            });
+            
+        });
+
+    $(document).ready(async ()=>{
+        const codehtml = await fetch(`http://pat2.cbs.cnrs.fr/myctu/rv_ali/Rv0004.htm`,{
+        mode: "no-cors",
+        headers:{
+            "content-type": "text"
+        }
+    })
+    console.log(codehtml)
+    })
+        
+        </script>
+    </div>
+
+</body>
+
+</html>
